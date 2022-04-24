@@ -1,5 +1,5 @@
 // Recuperer l'URL ?id= 
-const url = window.location.search;
+const url = location.search;
 console.log(url);
 
 // Paramètres de l'URL
@@ -18,4 +18,3 @@ order.textContent = orderId;
 
 // nettoyage du localStorage
 localStorage.clear();
-console.log("hello");

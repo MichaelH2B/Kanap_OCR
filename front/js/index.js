@@ -4,7 +4,6 @@ async function getProducts() {
   let call = await fetch("http://localhost:3000/api/products");
   if (call.ok) {
     let product = await call.json();
-    // console.log(product);
     displayProducts(product);
   } else {
     console.log("Problem. error: " + call.status)
@@ -39,7 +38,7 @@ function displayProducts(products) {
     const link = document.createElement("a");
     document.querySelector(".items").append(link);
     link.href = "./product.html?id=" + product._id;
-    // console.log(link);
+    console.log(link);
 
     // Crée l'élément "article"
     const article = document.createElement("article");

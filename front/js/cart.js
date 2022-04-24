@@ -12,6 +12,7 @@ function displayProduct(product) {
   article.setAttribute("data-color", product.color);
   article.setAttribute("data-price", product.price);
   sectionItems.append(article);
+  console.log(article);
 
   // image
   const divImg = document.createElement("div");
@@ -82,13 +83,15 @@ function displayProduct(product) {
 
 }
 
-//  Fonction async pour afficher le contenu du panier dans la page panier ainsi que le calcul des produits total et du prix.
-async function displayCartProducts() {
+//  Fonction pour afficher le contenu du panier dans la page panier ainsi que le calcul des produits total et du prix.
+function displayCartProducts() {
   // Récupérer les données stockées dans le panier
   const stringifiedValue = localStorage.getItem("canap");
+  console.log(stringifiedValue);
   if (stringifiedValue) {
     console.log("Panier a du contenu");
     cart = JSON.parse(stringifiedValue);
+    console.log(cart);
   } else {
     console.log("Panier est vide");
     cart = [];
@@ -119,6 +122,7 @@ function deleteProduct(id, color) {
     console.log(index);
     if (prd.productId == id && prd.color == color) {
       cart.splice(index, 1);
+      console.log(cart);
     }
   });
   localStorage.setItem('canap', JSON.stringify(cart));
@@ -142,7 +146,7 @@ function modifyQty(id, color, qty) {
 // au click sur le bouton commander
 // on selectionne notre id order et on fait un ecouteur d'evenement
 document.querySelector("#order").addEventListener('click', function (e) {
-  e.preventDefault();
+  e.preventDefault(); // toute action par default normallement executé n'aura pas lieu.
   if (cart != null && cart.length != 0) {  // si le panier n'est pas vide 
     contact = getForm();
     // console.log(contact);
@@ -151,17 +155,18 @@ document.querySelector("#order").addEventListener('click', function (e) {
       for (let product of cart) {
         products.push(product.productId)
       }
+      console.log(products);
       // console.log(products);
       let order = { contact, products }
       console.log(order);
       fetch('http://localhost:3000/api/products/order', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(order)
+        body: JSON.stringify(order) // on convertie l'objet en json
       })
         .then(reponse => reponse.json())
         .then(data => {
-          console.log(data);
+          console.log(data); // nous recuperons un orderId dans l'objet order
           document.location.href = `confirmation.html?order_id=${data.orderId}`;
         })
         .catch((err) => console.log(err));

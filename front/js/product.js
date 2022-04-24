@@ -1,17 +1,16 @@
+console.log(location);
 // Recuperer l'URL ?id= 
-const url = window.location.search;
+const url = location.search;
 console.log(url);
 
 // Paramètres de l'URL
-const urlSearchparams = new URLSearchParams(url);
+const urlSearchparams = new URLSearchParams(url); // Constructeur renvoyant un objet URLSearchParams
 console.log(urlSearchparams);
 
 // on extrait l'id et on le stock
-const id = urlSearchparams.get("id");
+const id = urlSearchparams.get("id");  // 'methode' .get nous retourne la valeur associée au paramètre de recherche donné.
 console.log(id);
 
-// let cart = JSON.parse(localStorage.getItem('canap'));
-// console.log(cart);
 
 //fonction affichage produit 
 function displayProductDetails(product) {
@@ -21,7 +20,7 @@ function displayProductDetails(product) {
     img.src = product.imageUrl;
     img.alt = product.altTxt;
     const itemImage = document.querySelector(".item__img");
-    itemImage.appendChild(img);
+    itemImage.append(img);
 
     // Title "h1"
     const title = document.querySelector("#title");
@@ -41,7 +40,7 @@ function displayProductDetails(product) {
         const option = document.createElement("option");
         option.value = color;
         option.textContent = color;
-        select.appendChild(option);
+        select.append(option);
     }
 }
 
@@ -137,6 +136,7 @@ function sendToCart(product) {
 function checkParam(ls, product) {
 
     let cart = JSON.parse(ls);
+    console.log(ls); // on stringify notre local storage.
     let inCart = false;
     cart.forEach(item => {
         if (item.productId == product.productId && item.color == product.color) {
@@ -144,7 +144,7 @@ function checkParam(ls, product) {
             inCart = true;
         }
     });
-    if (!inCart) {
+    if (!inCart) { // on utilise l'operateur logique non (!) qui prend l'opposé de la valeur fournie par l'operante
         cart.push(product);
     }
     localStorage.setItem('canap', JSON.stringify(cart));
